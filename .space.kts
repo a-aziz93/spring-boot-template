@@ -28,11 +28,11 @@ job("Publish to Docker Hub") {
         }
 
         build {
-            labels["vendor"] = "mycompany"
+            labels["vendor"] = "aitech"
         }
 
         //in push, specify repo_name/image_name
-        push("myrepo/hello-from-space") {
+        push("aitech/spring-boot-template") {
             tags("1.0.\$JB_SPACE_EXECUTION_NUMBER")
         }
     }
