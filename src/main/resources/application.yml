@@ -1,0 +1,16 @@
+# ==============================================
+# SPRING BOOT APPLICATION CONFIGURATION
+# ==============================================
+spring:
+
+  application:
+    name: template
+
+  main:
+    web-application-type: reactive
+    banner-mode: console
+    allow-bean-definition-overriding: false
+    lazy-initialization: false
+
+  banner:
+    location: banner.txt
