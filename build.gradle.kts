@@ -5,11 +5,20 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
+    id ("org.sonarqube") version "3.3"
 }
 
 group = "ai.tech"
 version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
+
+sonarqube {
+    properties {
+        property ("sonar.projectKey", "a-aziz93_spring-boot-template")
+        property ("sonar.organization", "a-aziz93")
+        property ("sonar.host.url", "https://sonarcloud.io")
+    }
+}
 
 configurations {
     compileOnly {
