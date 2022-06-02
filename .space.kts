@@ -5,6 +5,10 @@
 */
 
 job("Build and run tests") {
+    startOn {
+        gitPush { enabled=true }
+        schedule { cron("0 8 * * *") }
+    }
     container(displayName = "Gradle build", image = "openjdk:11") {
         kotlinScript { api ->
             // here goes complex logic
