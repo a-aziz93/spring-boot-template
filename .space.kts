@@ -9,7 +9,7 @@ job("Build and run tests") {
         gitPush { enabled=true }
         schedule { cron("0 8 * * *") }
     }
-    container(displayName = "Continuous Inspection of code quality and security",image = "openjdk:11"){
+    container(displayName = "Continuous inspection of code quality and security",image = "openjdk:11"){
         env["SONAR_TOKEN"] = Secrets("sonar_token")
         kotlinScript { api ->
             // here goes complex logic
@@ -19,6 +19,7 @@ job("Build and run tests") {
     container(displayName = "Gradle build", image = "openjdk:11") {
         kotlinScript { api ->
             // here goes complex logic
+            api.gradlew("clean")
             api.gradlew("build")
         }
     }
