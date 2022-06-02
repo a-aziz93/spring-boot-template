@@ -10,7 +10,7 @@ job("Build and run tests") {
         schedule { cron("0 8 * * *") }
     }
     container(displayName = "Continuous Inspection of code quality and security", image = "sonarsource/sonar-scanner-cli"){
-        env["SONAR_HOST_URL"]="http://sonarqube"
+        env["SONAR_HOST_URL"]="http://sonarqube:9000"
 service("bitnami/sonarqube"){
 alias("sonarqube")
     env["ALLOW_EMPTY_PASSWORD"]="yes"
