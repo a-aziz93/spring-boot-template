@@ -16,7 +16,7 @@ job("Build and run tests") {
         }
     }
 }
-
+/*
 job("Publish to Docker Hub") {
     docker("Docker build and push") {
         // get auth data from secrets and put it to env vars
@@ -41,3 +41,4 @@ job("Publish to Docker Hub") {
         }
     }
 }
+ */
