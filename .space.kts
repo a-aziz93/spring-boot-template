@@ -13,6 +13,7 @@ job("Build and run tests") {
         env["SONAR_HOST_URL"]="http://sonarqube"
 service("bitnami/sonarqube"){
 alias("sonarqube")
+    env["ALLOW_EMPTY_PASSWORD"]="yes"
 }
     }
     container(displayName = "Gradle build", image = "openjdk:11") {
