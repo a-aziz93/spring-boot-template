@@ -9,6 +9,9 @@ job("Build and run tests") {
         gitPush { enabled=true }
         schedule { cron("0 8 * * *") }
     }
+    container(displayName = "Inspection of code quality", image = "sonarqube"){
+
+    }
     container(displayName = "Gradle build", image = "openjdk:11") {
         kotlinScript { api ->
             // here goes complex logic
