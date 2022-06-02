@@ -9,8 +9,10 @@ job("Build and run tests") {
         gitPush { enabled=true }
         schedule { cron("0 8 * * *") }
     }
-    container(displayName = "Continuous Inspection of code quality and security", image = "bitnami/sonarqube"){
+    container(displayName = "Continuous Inspection of code quality and security", image = "sonarsource/sonar-scanner-cli"){
+service("bitnami/sonarqube"){
 
+}
     }
     container(displayName = "Gradle build", image = "openjdk:11") {
         kotlinScript { api ->
