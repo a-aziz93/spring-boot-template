@@ -11,7 +11,7 @@ job("Build and run tests") {
     }
     container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
         env["SONAR_LOGIN"] = Secrets("sonar_token")
-        env["SONAR_HOST_URL"] = "https://sonarcloud.io"
+        env["SONAR_HOST_URL"] = Params("sonar_host_url")
     }
     
     container(displayName = "Gradle build", image = "openjdk:11") {
@@ -24,7 +24,7 @@ job("Build and run tests") {
     
     docker("Docker build and push") {
         // get auth data from secrets and put it to env vars
-        env["DOCKERHUB_USER"] = Secrets("dockerhub_user")
+        env["DOCKERHUB_USER"] = Params("dockerhub_user")
         env["DOCKERHUB_TOKEN"] = Secrets("dockerhub_token")
         
         // put auth data to Docker config
