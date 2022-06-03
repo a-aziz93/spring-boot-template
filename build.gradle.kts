@@ -12,14 +12,6 @@ group = "ai.tech"
 version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
-sonarqube {
-    properties {
-        property ("sonar.projectKey", "a-aziz93_spring-boot-template")
-        property ("sonar.organization", "a-aziz93")
-        property ("sonar.host.url", "https://sonarcloud.io")
-    }
-}
-
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
