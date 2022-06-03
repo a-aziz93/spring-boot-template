@@ -4,7 +4,7 @@
 * For more info, see https://www.jetbrains.com/help/space/automation.html
 */
 
-job("Build and run tests") {
+job("Code analysis, build and run tests") {
     startOn {
         gitPush { enabled=true }
         schedule { cron("0 8 * * *") }
@@ -12,6 +12,8 @@ job("Build and run tests") {
     container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
         env["SONAR_LOGIN"] = Secrets("sonar_token")
         env["SONAR_HOST_URL"] = Params("sonar_host_url")
+        env["SONAR_ORGANIZATION"] = "a-aziz93"
+        env["SONAR_PROJECT_KEY"] = "spring-boot-template"
     }
     
     container(displayName = "Gradle build", image = "openjdk:11") {
