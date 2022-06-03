@@ -11,7 +11,7 @@ job("Build and run tests") {
     }
     container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
         env["SONAR_LOGIN"] = Secrets("sonar_token")
-        env["SONAR_HOST_URL"] = Parameters("sonar_host_url")
+        env["SONAR_HOST_URL"] = "https://sonarcloud.io"
     }
     
     container(displayName = "Gradle build", image = "openjdk:11") {
