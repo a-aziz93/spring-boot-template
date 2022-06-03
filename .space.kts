@@ -16,6 +16,7 @@ job("Build and run tests") {
             api.gradlew("sonarqube")
         }
     }
+    
     container(displayName = "Gradle build", image = "openjdk:11") {
         kotlinScript { api ->
             // here goes complex logic
@@ -23,15 +24,12 @@ job("Build and run tests") {
             api.gradlew("build")
         }
     }
-  
-}
-/*
-job("Publish to Docker Hub") {
+    
     docker("Docker build and push") {
         // get auth data from secrets and put it to env vars
         env["DOCKERHUB_USER"] = Secrets("dockerhub_user")
         env["DOCKERHUB_TOKEN"] = Secrets("dockerhub_token")
-
+        
         // put auth data to Docker config
         beforeBuildScript {
             content = """
@@ -39,15 +37,14 @@ job("Publish to Docker Hub") {
                 echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"${'$'}B64_AUTH\"}}}" > ${'$'}DOCKER_CONFIG/config.json
             """
         }
-
+        
         build {
             labels["vendor"] = "aitech"
         }
-
+        
         //in push, specify repo_name/image_name
         push("aitech/spring-boot-template") {
             tags("1.0.\$JB_SPACE_EXECUTION_NUMBER")
         }
     }
 }
- */
