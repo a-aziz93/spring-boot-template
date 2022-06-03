@@ -9,12 +9,9 @@ job("Build and run tests") {
         gitPush { enabled=true }
         schedule { cron("0 8 * * *") }
     }
-    container(displayName = "Continuous inspection of code quality and security",image = "openjdk:11"){
-        env["SONAR_TOKEN"] = Secrets("sonar_token")
-        kotlinScript { api ->
-            // here goes complex logic
-            api.gradlew("sonarqube")
-        }
+    container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
+        env["SONAR_LOGIN"] = Secrets("sonar_token")
+        env["SONAR_HOST_URL"] = "https://sonarcloud.io"
     }
     
     container(displayName = "Gradle build", image = "openjdk:11") {
