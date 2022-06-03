@@ -19,6 +19,7 @@ job("Build and run tests") {
     container(displayName = "Gradle build", image = "openjdk:11") {
         kotlinScript { api ->
             // here goes complex logic
+            api.gradlew("clean")
             api.gradlew("build")
         }
     }
