@@ -1,4 +1,3 @@
-import java.io.File
 
 /**
 * JetBrains Space Automation
@@ -11,6 +10,7 @@ job("Code analysis, test, build and push") {
         gitPush { enabled =true }
         schedule { cron("0 8 * * *") }
     }
+    
     container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
         env["SONAR_LOGIN"] = Secrets("sonar_token")
         env["SONAR_HOST_URL"] = Params("sonar_host_url")
