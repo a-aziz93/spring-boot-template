@@ -1,4 +1,4 @@
-
+import java.io.File
 
 /**
 * JetBrains Space Automation
@@ -8,7 +8,7 @@
 
 job("Code analysis, test, build and push") {
     startOn {
-        gitPush { this.enabled =true }
+        gitPush { enabled =true }
         schedule { cron("0 8 * * *") }
     }
     container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
@@ -22,7 +22,7 @@ job("Code analysis, test, build and push") {
         kotlinScript { api ->
             // here goes complex logic
             api.gradlew("build")
-            //api.fileShare().put(File("build"),"")
+            api.fileShare().put(File("build"),"")
         }
     }
     
