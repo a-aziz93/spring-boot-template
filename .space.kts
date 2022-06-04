@@ -11,13 +11,11 @@ job("Code analysis, test, build and push") {
         schedule { cron("0 8 * * *") }
     }
     
-    container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
+    container(displayName = "Continuous inspection of code quality and security", image = "sonarsource/sonar-scanner-cli")
+    {
         env["SONAR_LOGIN"] = Secrets("sonar_token")
         env["SONAR_HOST_URL"] = Params("sonar_host_url")
         args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
-        shellScript {
-            content="docker run --rm"
-        }
     }
     
     container(displayName = "Gradle test and build", image = "openjdk:11") {
