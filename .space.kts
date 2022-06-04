@@ -12,10 +12,10 @@ job("Code analysis, test, build and push") {
     }
     
     container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
+        entrypoint("docker run --rm")
         env["SONAR_LOGIN"] = Secrets("sonar_token")
         env["SONAR_HOST_URL"] = Params("sonar_host_url")
         args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
-        
     }
     
     container(displayName = "Gradle test and build", image = "openjdk:11") {
