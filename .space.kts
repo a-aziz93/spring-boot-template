@@ -36,7 +36,7 @@ job("Code analysis, test, build and push") {
             content = "cp -r  $mountDir/share docker"
         }
         build {
-            context = "."
+            context = "docker"
             file = "./Dockerfile"
             labels["vendor"] = "aitech"
         }
