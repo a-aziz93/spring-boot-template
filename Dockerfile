@@ -1,7 +1,10 @@
 FROM openjdk:11
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
-COPY build/libs/*.jar spring-boot-template-1.0.0.jar
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} application.jar
 ENV PORT 5555
+RUN addgroup -S springboot && adduser -S sbuser -G springboot
+USER sbuser
 EXPOSE 5555
-ENTRYPOINT ["java","-jar","spring-boot-template-1.0.0.jar"]
+ENTRYPOINT ["java","-jar","/application.jar"]
