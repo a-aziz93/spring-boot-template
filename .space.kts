@@ -17,9 +17,9 @@ job("Code analysis, test, build and push") {
         args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
     }
     
-    container(displayName = "Gradle test", image = "openjdk:11") {
+    container(displayName = "Gradle test and build", image = "openjdk:11") {
         kotlinScript {api->
-            api.gradlew("test")
+            api.gradlew("build")
         }
     }
     
@@ -29,7 +29,7 @@ job("Code analysis, test, build and push") {
             memory = 64.mb
         }
         shellScript {
-            content="jib build --build-file=jib/jib.yaml --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.\$JB_SPACE_EXECUTION_NUMBER"
+            content="jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.\$JB_SPACE_EXECUTION_NUMBER build/libs/spring-boot-template-*.jar"
         }
     }
 }
