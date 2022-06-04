@@ -1,3 +1,7 @@
+import com.fasterxml.jackson.module.kotlin.kotlinModule
+import libraries.basics.applyIf
+import java.io.File
+
 /**
 * JetBrains Space Automation
 * This Kotlin-script file lets you automate build activities
@@ -19,11 +23,12 @@ job("Code analysis, test, build and push") {
     container(displayName = "Gradle test and build", image = "openjdk:11") {
         kotlinScript { api ->
             // here goes complex logic
-            api.gradlew("build","cp -r build $mountDir/share")
+            api.gradlew("build")
+            api.fileShare().put(File("build"),"")
         }
     }
     
-    docker {
+    docker("Docker build and push") {
         resources {
             cpu = 1.cpu
             memory = 2000.mb
