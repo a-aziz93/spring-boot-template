@@ -12,7 +12,7 @@ plugins {
     signing
 }
 
-group = "${System.getenv("JB_SPACE_API_URL")?:"".split(".")[0].replaceBefore("/","").replaceFirst("//","")}.${System.getenv("JB_SPACE_PROJECT_KEY")?:"".toLowerCaseAsciiOnly()}"
+group = "${(System.getenv("JB_SPACE_API_URL")?:"").split(".")[0].replaceBefore("/","").replaceFirst("//","")}.${(System.getenv("JB_SPACE_PROJECT_KEY")?:"").toLowerCaseAsciiOnly()}"
 version = "1.0.${System.getenv("JB_SPACE_EXECUTION_NUMBER")}"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
