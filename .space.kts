@@ -32,9 +32,9 @@ job("Code analysis, test, build and push") {
                 labels["vendor"] = "aitech"
             }
             
-            push("aitech.registry.jetbrains.space/p/projectkey/mydocker/myimage") {
+            push("aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template") {
                 // use current job run number as a tag - '0.0.run_number'
-                tags("0.0.\$JB_SPACE_EXECUTION_NUMBER")
+                tags("1.0.\$JB_SPACE_EXECUTION_NUMBER")
                 // see example on how to use branch name in a tag
             }
         }
