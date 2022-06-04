@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "ai.tech"
-version = "1.0."+System.getenv("JB_SPACE_EXECUTION_NUMBER")
+version = "1.0.${System.getenv("JB_SPACE_EXECUTION_NUMBER")}"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
