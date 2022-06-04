@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "ai.tech"
-version = "1.0.0"
+version = "1.0."+System.getenv("JB_SPACE_EXECUTION_NUMBER")
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
@@ -63,21 +63,9 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-val sourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-}
-
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
-    from(tasks.javadoc)
-}
-
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            artifact(sourcesJar.get())
-            artifact(javadocJar.get())
             from(components["java"])
             versionMapping {
                 usage("java-api") {
