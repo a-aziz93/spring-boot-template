@@ -4,7 +4,7 @@
 * For more info, see https://www.jetbrains.com/help/space/automation.html
 */
 
-job("Code analysis, run tests, build and push artifact") {
+job("Code analysis, test, build and push") {
     startOn {
         gitPush { enabled=true }
         schedule { cron("0 8 * * *") }
@@ -24,26 +24,19 @@ job("Code analysis, run tests, build and push artifact") {
         }
     }
     
-    docker("Docker build and push") {
-        // get auth data from secrets and put it to env vars
-        env["DOCKERHUB_USER"] = Params("dockerhub_user")
-        env["DOCKERHUB_TOKEN"] = Secrets("dockerhub_token")
-        
-        // put auth data to Docker config
-        beforeBuildScript {
-            content = """
-                B64_AUTH=${'$'}(echo -n ${'$'}DOCKERHUB_USER:${'$'}DOCKERHUB_TOKEN | base64 -w 0)
-                echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"${'$'}B64_AUTH\"}}}" > ${'$'}DOCKER_CONFIG/config.json
-            """
-        }
-        
-        build {
-            labels["vendor"] = "aitech"
-        }
-        
-        //in push, specify repo_name/image_name
-        push("aitech/spring-boot-template") {
-            tags("1.0.\$JB_SPACE_EXECUTION_NUMBER")
+    job("Docker build and push") {
+        docker {
+            build {
+                context = "."
+                file = "./Dockerfile"
+                labels["vendor"] = "aitech"
+            }
+            
+            push("aitech.registry.jetbrains.space/p/projectkey/mydocker/myimage") {
+                // use current job run number as a tag - '0.0.run_number'
+                tags("0.0.\$JB_SPACE_EXECUTION_NUMBER")
+                // see example on how to use branch name in a tag
+            }
         }
     }
 }
