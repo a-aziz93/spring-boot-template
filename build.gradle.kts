@@ -48,9 +48,14 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("mavenJava") {
             from(components["java"])
             versionMapping {
                 usage("java-api") {
@@ -61,9 +66,6 @@ publishing {
                 }
             }
             pom {
-                signing {
-                    sign(publishing.publications["maven"])
-                }
                 name.set("spring-boot-template")
                 description.set("Spring Boot microservice template")
                 url.set("https://github.com/a-aziz93/spring-boot-template/")
@@ -97,7 +99,10 @@ publishing {
     repositories {
         maven {
             // change to point to your repo, e.g. http://my.org/repo
-            url = uri("https://maven.pkg.jetbrains.space/aaziz93/p/microservices/maven")
+            val releasesRepoUrl = uri("https://maven.pkg.jetbrains.space/aaziz93/p/microservices/releases")
+            val snapshotsRepoUrl = uri("https://maven.pkg.jetbrains.space/aaziz93/p/microservices/snapshots")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+    
             credentials {
                 // Automation has a special account for authentication in Space
                 // account credentials are accessible via env vars
@@ -107,11 +112,11 @@ publishing {
         }
     }
 }
-
+/*
 signing {
-    sign(publishing.publications["maven"])
+    sign(publishing.publications["mavenJava"])
 }
-
+*/
 tasks.javadoc {
     if (JavaVersion.current().isJava11Compatible) {
         (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
