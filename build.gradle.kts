@@ -61,12 +61,17 @@ publishing {
                 }
             }
             pom {
+                signing {
+                    sign(publishing.publications["maven"])
+                }
                 name.set("spring-boot-template")
                 description.set("Spring Boot microservice template")
                 url.set("https://github.com/a-aziz93/spring-boot-template/")
-                properties.set(mapOf(
-                
-                ))
+                properties.set(
+                    mapOf(
+        
+                    )
+                )
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
