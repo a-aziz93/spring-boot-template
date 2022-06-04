@@ -17,19 +17,17 @@ job("Code analysis, test, build and push") {
         args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
     }
     
-    container(displayName = "Gradle test and build", image = "openjdk:11") {
-        shellScript {
-            content = """
-                    ./gradlew build
-                    cp -r build $mountDir/share
-                """
+    container(displayName = "Gradle test, build and publish to space registry", image = "gradle") {
+        kotlinScript { api ->
+            api.gradle("build")
+            api.gradle("publish")
         }
     }
     
-    container("Jib build docker container and push to space registry", image = "trion/jib-cli") {
+    container("Jib build docker container and publish to space registry", image = "trion/jib-cli") {
         resources {
             cpu = 1.cpu
-            memory = 64.mb
+            memory = 2000.mb
         }
         args("jib","jar","--target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0","$mountDir/share/build/libs/spring-boot-template-1.0.0.jar")
     }

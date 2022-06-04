@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
+    `maven-publish`
 }
 
 group = "ai.tech"
@@ -44,3 +45,25 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+    
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url = uri(layout.buildDirectory.dir("https://maven.pkg.jetbrains.space/aaziz93/p/microservices/maven"))
+            credentials {
+                // Automation has a special account for authentication in Space
+                // account credentials are accessible via env vars
+                username = System.getenv("JB_SPACE_CLIENT_ID")
+                password = System.getenv("JB_SPACE_CLIENT_SECRET")
+            }
+        }
+    }
+}
+
