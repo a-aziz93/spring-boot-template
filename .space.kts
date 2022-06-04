@@ -1,4 +1,3 @@
-
 /**
 * JetBrains Space Automation
 * This Kotlin-script file lets you automate build activities
@@ -18,33 +17,19 @@ job("Code analysis, test, build and push") {
         args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
     }
     
-    container(displayName = "Gradle test and build", image = "openjdk:11") {
-        shellScript {
-            content = """
-                    ./gradlew build
-                    cp -r build $mountDir/share
-                """
+    container(displayName = "Gradle test", image = "openjdk:11") {
+        kotlinScript {api->
+            api.gradlew("test")
         }
     }
     
-    docker("Docker build and push") {
+    container("Build container and push", image = "trion/jib-cli") {
         resources {
             cpu = 1.cpu
-            memory = 2000.mb
+            memory = 64.mb
         }
-        beforeBuildScript {
-            content = "cp -r  $mountDir/share docker"
-        }
-        build {
-            context = "docker"
-            file = "./Dockerfile"
-            labels["vendor"] = "aitech"
-        }
-    
-        push("aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template") {
-            // use current job run number as a tag - '0.0.run_number'
-            tags("1.0.\$JB_SPACE_EXECUTION_NUMBER", "lts")
-            // see example on how to use branch name in a tag
+        shellScript {
+            content="jib build --build-file=jib/jib.yaml"
         }
     }
 }
