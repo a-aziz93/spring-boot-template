@@ -24,19 +24,17 @@ job("Code analysis, test, build and push") {
         }
     }
     
-    job("Docker build and push") {
-        docker {
-            build {
-                context = "."
-                file = "./Dockerfile"
-                labels["vendor"] = "aitech"
-            }
-            
-            push("aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template") {
-                // use current job run number as a tag - '0.0.run_number'
-                tags("1.0.\$JB_SPACE_EXECUTION_NUMBER")
-                // see example on how to use branch name in a tag
-            }
+    docker("Docker build and push") {
+        build {
+            context = "."
+            file = "./Dockerfile"
+            labels["vendor"] = "aitech"
+        }
+    
+        push("aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template") {
+            // use current job run number as a tag - '0.0.run_number'
+            tags("1.0.\$JB_SPACE_EXECUTION_NUMBER")
+            // see example on how to use branch name in a tag
         }
     }
 }
