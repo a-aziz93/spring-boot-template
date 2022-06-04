@@ -19,10 +19,11 @@ job("Code analysis, test, build and push") {
     }
     
     container(displayName = "Gradle test and build", image = "openjdk:11") {
-        kotlinScript { api ->
-            // here goes complex logic
-            api.gradlew("build")
-            api.fileShare().put(File("build"),"")
+        shellScript {
+            content = """
+                    ./gradlew build
+                    cp -r build $mountDir/share
+                """
         }
     }
     
