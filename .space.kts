@@ -12,7 +12,7 @@ job("Code analysis, build and run tests") {
     container(displayName = "Continuous inspection of code quality and security",image = "sonarsource/sonar-scanner-cli"){
         env["SONAR_LOGIN"] = Secrets("sonar_token")
         env["SONAR_HOST_URL"] = Params("sonar_host_url")
-        args("-Dsonar.projectKey=a-aziz93","-Dsonar.organization=a-aziz93_spring-boot-template")
+        args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
         
     }
     
