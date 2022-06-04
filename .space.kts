@@ -29,7 +29,7 @@ job("Code analysis, test, build and push") {
             memory = 64.mb
         }
         shellScript {
-            content="jib build --build-file=jib/jib.yaml"
+            content="jib build --build-file=jib/jib.yaml --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.\$JB_SPACE_EXECUTION_NUMBER"
         }
     }
 }
