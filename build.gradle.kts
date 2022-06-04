@@ -11,7 +11,7 @@ plugins {
     signing
 }
 
-group = "ai.tech"
+group = "${System.getenv("JB_SPACE_PROJECT_ID")}.${System.getenv("JB_SPACE_PROJECT_KEY")}"
 version = "1.0.${System.getenv("JB_SPACE_EXECUTION_NUMBER")}"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
