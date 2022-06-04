@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     id("org.springframework.boot") version "2.7.0"
@@ -37,6 +38,13 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
 }
 
+tasks.named<BootJar>("bootJar") {
+    layered {
+        isEnabled = false
+        isIncludeLayerTools = false
+    }
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -51,11 +59,25 @@ tasks.withType<Test> {
 java {
     withJavadocJar()
     withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+val sourcesJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+    from(tasks.javadoc)
 }
 
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
+            artifact(sourcesJar.get())
+            artifact(javadocJar.get())
             from(components["java"])
             versionMapping {
                 usage("java-api") {
@@ -115,6 +137,8 @@ publishing {
 /*
 signing {
     sign(publishing.publications["mavenJava"])
+    sign(configurations.archives.get())
+    
 }
 */
 tasks.javadoc {
