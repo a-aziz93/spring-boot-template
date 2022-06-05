@@ -22,7 +22,7 @@ job("Code analysis, test, build and push") {
             content="""
                 gradle build publish
                 cp -r build $mountDir/share
-                echo \$(gradle properties -q | grep \"^group:\" | awk '{print \$2}'):\$(gradle properties -q | grep \"^name:\" | awk '{print \$2}'):\$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>$mountDir/${getArtifactFilePath()}"
+                echo $(gradle properties -q | grep \"^name:\" | awk '{print $2}'):-$(gradle properties -q | grep \"^version:\" | awk '{print $2}')>$mountDir/${getArtifactFilePath()}
                 """
         }
     }
