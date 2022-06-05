@@ -27,7 +27,7 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         shellScript {
-            content="echo \$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>$mountDir/share/artifact.txt"
+            content="echo \$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>${getArtifactFilePath()}"
         }
     }
     
@@ -37,7 +37,11 @@ job("Code analysis, test, build and push") {
             memory = 2000.mb
         }
         shellScript {
-            content = "jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0 `cat $mountDir/share/artifact.txt`"
+            content = "jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0 `cat ${getArtifactFilePath()}`"
         }
     }
+}
+
+fun getArtifactFilePath():String{
+    return "${'$'}mountDir/share/artifact-${'$'}JB_SPACE_API_URL-${'$'}JB_SPACE_PROJECT_KEY-${'$'}JB_SPACE_EXECUTION_NUMBER"
 }
