@@ -35,7 +35,7 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         kotlinScript {
-            println(System.getenv())
+            println(System.getProperties())
         }
     }
 }
