@@ -15,19 +15,15 @@ job("Code analysis, test, build and push") {
         env["SONAR_LOGIN"] = Secrets("sonar_token")
         env["SONAR_HOST_URL"] = Params("sonar_host_url")
         args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
-    }
+    }*/
     
-    container(displayName = "Gradle test, build and publish to space registry", image = "gradle") {
-        kotlinScript { api ->
-            api.gradle("build","publish")
-            api.fileShare().put(File("build"),"build")
-        }
-    }
-    */
-    
-    container(image = "gradle"){
+    container(displayName = "Gradle test, build and publish to space registry", image = "gradle"){
         shellScript {
-            content="echo \$(gradle properties -q | grep \"^group:\" | awk '{print \$2}'):\$(gradle properties -q | grep \"^name:\" | awk '{print \$2}'):\$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>$mountDir/${getArtifactFilePath()}"
+            content="""
+                gradle build publish
+                cp -r build $mountDir/share
+                echo $(gradle properties -q | grep "^group:" | awk '{print $2}'):$(gradle properties -q | grep "^name:" | awk '{print $2}'):$(gradle properties -q | grep "^version:" | awk '{print $2}')>$mountDir/${getArtifactFilePath()}"
+                """
         }
     }
     
@@ -37,7 +33,10 @@ job("Code analysis, test, build and push") {
             memory = 2000.mb
         }
         shellScript {
-            content = "ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}` && jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/\"\$ARTIFACT_NAME\" \"\$ARTIFACT_NAME\""
+            content = """
+                ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}`
+                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"
+            """
         }
     }
 }
