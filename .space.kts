@@ -36,6 +36,9 @@ job("Code analysis, test, build and push") {
             cpu = 1.cpu
             memory = 2000.mb
         }
-        args("jib","jar","--target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0","\$(<$mountDir/share/artifact.txt)")
+        shellScript {
+            content =
+                "jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0 \$(<$mountDir/share/artifact.txt)"
+        }
     }
 }
