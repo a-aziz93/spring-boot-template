@@ -35,7 +35,7 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         shellScript {
-            content="printenv"
+            content="echo ${System.getProperty("version")}"
         }
     }
 }
