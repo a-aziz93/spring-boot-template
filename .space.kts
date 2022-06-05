@@ -27,7 +27,7 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         shellScript {
-            content="echo \$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>$mountDir/${getArtifactFilePath()}"
+            content="echo \$(gradle properties -q | grep \"^group:\" | awk '{print \$2}'):\$(gradle properties -q | grep \"^name:\" | awk '{print \$2}'):\$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>$mountDir/${getArtifactFilePath()}"
         }
     }
     
