@@ -9,13 +9,13 @@ job("Code analysis, test, build and push") {
         gitPush { enabled =true }
         schedule { cron("0 8 * * *") }
     }
-   /*
+   
     container(displayName = "Sonar continuous inspection of code quality and security", image = "sonarsource/sonar-scanner-cli")
     {
-        env["SONAR_LOGIN"] = Secrets("sonar_token")
         env["SONAR_HOST_URL"] = Params("sonar_host_url")
+        env["SONAR_LOGIN"] = Secrets("sonar_token")
         args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
-    }*/
+    }
     
     container(displayName = "Gradle test, build and publish to space maven registry", image = "gradle"){
         shellScript {
