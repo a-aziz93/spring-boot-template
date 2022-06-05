@@ -12,8 +12,8 @@ plugins {
     signing
 }
 
-group = "${(System.getenv("JB_SPACE_API_URL")?:"").split(".")[0].replaceBefore("/","").replaceFirst("//","")}.${(System.getenv("JB_SPACE_PROJECT_KEY")?:"").toLowerCaseAsciiOnly()}"
-version = "1.0.${System.getenv("JB_SPACE_EXECUTION_NUMBER")}"
+group = "${(System.getenv("JB_SPACE_API_URL")?:"org").split(".")[0].replaceBefore("/","").replaceFirst("//","")}.${(System.getenv("JB_SPACE_PROJECT_KEY")?:"example").toLowerCaseAsciiOnly()}"
+version = "1.0.${System.getenv("JB_SPACE_EXECUTION_NUMBER")?:0}"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {

@@ -34,7 +34,7 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         kotlinScript {api->
-            api.gradlew("properties")
+            api.gradlew("properties","--no-daemon","--console=plain", "-q | grep \"^version:\"")
         }
     }
 }
