@@ -32,10 +32,12 @@ job("Code analysis, test, build and push") {
             cpu = 1.cpu
             memory = 2000.mb
         }
+        env["SPACE_DOCKER_REGISTRY_USER"] = Params("space_docker_registry_user")
+        env["SPACE_DOCKER_REGISTRY_TOKEN"] = Params("space_docker_registry_token")
         shellScript {
             content = """
                 ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}`
-                jib jar --to-username=${Params("space_docker_registry_user")} --to-password=${Secrets("space_docker_registry_token")} --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME".jar
+                jib jar --to-username=${'$'}SPACE_DOCKER_REGISTRY_USER --to-password=${'$'}SPACE_DOCKER_REGISTRY_TOKEN --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME".jar
             """
         }
     }
