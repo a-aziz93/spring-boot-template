@@ -37,7 +37,7 @@ job("Code analysis, test, build and push") {
             memory = 2000.mb
         }
         shellScript {
-            content = "jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0 `cat $mountDir/${getArtifactFilePath()}`"
+            content = "ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}` && jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/`${'$'}ARTIFACT_NAME` `${'$'}ARTIFACT_NAME`"
         }
     }
 }
