@@ -34,8 +34,8 @@ job("Code analysis, test, build and push") {
     }*/
     
     container(image = "gradle"){
-        shellScript {
-            content="echo ${System.getProperty("version")}"
+        kotlinScript {
+            println(System.getenv())
         }
     }
 }
