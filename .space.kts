@@ -34,7 +34,7 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         shellScript {
-            content="echo \$(gradle properties -q | grep \"^version:\" | awk '{print \$2}') > $mountDir/share/artifact.txt"
+            content="echo \$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>$mountDir/share/artifact.txt"
         }
     }
     
