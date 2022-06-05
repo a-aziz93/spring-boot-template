@@ -1,3 +1,4 @@
+import java.io.File
 /**
 * JetBrains Space Automation
 * This Kotlin-script file lets you automate build activities
@@ -9,7 +10,7 @@ job("Code analysis, test, build and push") {
         gitPush { enabled =true }
         schedule { cron("0 8 * * *") }
     }
-   
+   /*
     container(displayName = "Sonar continuous inspection of code quality and security", image = "sonarsource/sonar-scanner-cli")
     {
         env["SONAR_LOGIN"] = Secrets("sonar_token")
@@ -19,9 +20,8 @@ job("Code analysis, test, build and push") {
     
     container(displayName = "Gradle test, build and publish to space registry", image = "gradle") {
         kotlinScript { api ->
-            api.gradle("build")
-            api.fileShare().put(java.io.File("build"),"build")
-            api.gradle("publish")
+            api.gradle("build","publish")
+            api.fileShare().put(File("build"),"build")
         }
     }
     
@@ -31,5 +31,11 @@ job("Code analysis, test, build and push") {
             memory = 2000.mb
         }
         args("jib","jar","--target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0","$mountDir/share/build/libs/spring-boot-template-1.0.0.jar")
+    }*/
+    
+    container(image = "gradle"){
+        shellScript {
+            content="printenv"
+        }
     }
 }
