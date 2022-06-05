@@ -34,13 +34,13 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         shellScript {
-            content="ARTIFACT_FULL_NAME=\$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')\n"
+            content="echo \$(gradle properties -q | grep \"^version:\" | awk '{print \$2}') > $mountDir/share/artifact.txt"
         }
     }
     
     container("Jib build docker container and publish to space registry", image = "trion/jib-cli") {
      shellScript {
-         content="echo \${ARTIFACT_FULL_NAME}"
+         content="echo \$(<$mountDir/share/artifact.txt)"
      }
     }
 }
