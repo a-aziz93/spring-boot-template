@@ -1,4 +1,3 @@
-
 /**
 * JetBrains Space Automation
 * This Kotlin-script file lets you automate build activities
@@ -28,7 +27,7 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         shellScript {
-            content="echo \$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>$mountDir/share/${getArtifactFileName()}"
+            content="echo \$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')>${getArtifactFilePath()}"
         }
     }
     
@@ -38,11 +37,11 @@ job("Code analysis, test, build and push") {
             memory = 2000.mb
         }
         shellScript {
-            content = "jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0 `cat $mountDir/share/${getArtifactFileName()}`"
+            content = "jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0 `cat ${getArtifactFilePath()}`"
         }
     }
 }
 
-fun getArtifactFileName():String{
-    return "artifact-${'$'}JB_SPACE_API_URL-${'$'}JB_SPACE_PROJECT_KEY-${'$'}JB_SPACE_EXECUTION_NUMBER"
+fun getArtifactFilePath():String{
+    return "${System.getProperty("mountDir")}/share/artifact-${System.getenv("JB_SPACE_API_URL").split(".")[0].replaceBefore("/","").replaceFirst("//","")}-${System.getenv("JB_SPACE_PROJECT_KEY").lowercase()}-${'$'}JB_SPACE_EXECUTION_NUMBER"
 }
