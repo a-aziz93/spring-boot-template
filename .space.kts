@@ -1,4 +1,3 @@
-import java.io.File
 /**
 * JetBrains Space Automation
 * This Kotlin-script file lets you automate build activities
@@ -35,7 +34,9 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         kotlinScript {
-            println(System.getProperties())
+            for(p in System.getProperties()){
+                println(p)
+            }
         }
     }
 }
