@@ -33,10 +33,8 @@ job("Code analysis, test, build and push") {
     }*/
     
     container(image = "gradle"){
-        kotlinScript {
-            for(p in System.getProperties()){
-                println(p)
-            }
+        kotlinScript {api->
+            api.gradlew("properties")
         }
     }
 }
