@@ -43,5 +43,5 @@ job("Code analysis, test, build and push") {
 }
 
 fun getArtifactFilePath():String{
-    return "${System.getProperty("mountDir")}/share/artifact-${System.getenv("JB_SPACE_API_URL").split(".")[0].replaceBefore("/","").replaceFirst("//","")}-${System.getenv("JB_SPACE_PROJECT_KEY")}-${'$'}JB_SPACE_EXECUTION_NUMBER"
+    return "${System.getenv("mountDir")}/share/artifact-${System.getenv("JB_SPACE_API_URL").split(".")[0].replaceBefore("/","").replaceFirst("//","")}-${'$'}JB_SPACE_PROJECT_KEY-${'$'}JB_SPACE_EXECUTION_NUMBER"
 }
