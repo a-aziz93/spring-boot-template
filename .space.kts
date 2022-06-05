@@ -37,4 +37,10 @@ job("Code analysis, test, build and push") {
             content="ARTIFACT_FULL_NAME=\$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')\n"
         }
     }
+    
+    container("Jib build docker container and publish to space registry", image = "trion/jib-cli") {
+     shellScript {
+         content="echo \${ARTIFACT_FULL_NAME}"
+     }
+    }
 }
