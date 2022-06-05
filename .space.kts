@@ -37,7 +37,7 @@ job("Code analysis, test, build and push") {
             memory = 2000.mb
         }
         shellScript {
-            content = "ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}` && jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/`${'$'}ARTIFACT_NAME` `${'$'}ARTIFACT_NAME`"
+            content = "ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}` && jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/\"\$ARTIFACT_NAME\" \"\$ARTIFACT_NAME\""
         }
     }
 }
