@@ -33,7 +33,7 @@ job("Code analysis, test, build and push") {
             memory = 2000.mb
         }
         env["SPACE_DOCKER_REGISTRY_USER"] = Params("space_docker_registry_user")
-        env["SPACE_DOCKER_REGISTRY_TOKEN"] = Params("space_docker_registry_token")
+        env["SPACE_DOCKER_REGISTRY_TOKEN"] = Secrets("space_docker_registry_token")
         shellScript {
             content = """
                 ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}`
