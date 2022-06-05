@@ -23,14 +23,7 @@ job("Code analysis, test, build and push") {
             api.fileShare().put(File("build"),"build")
         }
     }
-    
-    container("Jib build docker container and publish to space registry", image = "trion/jib-cli") {
-        resources {
-            cpu = 1.cpu
-            memory = 2000.mb
-        }
-        args("jib","jar","--target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0","$mountDir/share/build/libs/spring-boot-template-1.0.0.jar")
-    }*/
+    */
     
     container(image = "gradle"){
         shellScript {
@@ -39,8 +32,10 @@ job("Code analysis, test, build and push") {
     }
     
     container("Jib build docker container and publish to space registry", image = "trion/jib-cli") {
-     shellScript {
-         content="echo \$(<$mountDir/share/artifact.txt)"
-     }
+        resources {
+            cpu = 1.cpu
+            memory = 2000.mb
+        }
+        args("jib","jar","--target=aaziz93.registry.jetbrains.space/p/microservices/containers/spring-boot-template:1.0.0","\$(<$mountDir/share/artifact.txt)")
     }
 }
