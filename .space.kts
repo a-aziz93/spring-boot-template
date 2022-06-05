@@ -17,7 +17,7 @@ job("Code analysis, test, build and push") {
         args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
     }*/
     
-    container(displayName = "Gradle test, build and publish to space registry", image = "gradle"){
+    container(displayName = "Gradle test, build and publish to space maven registry", image = "gradle"){
         shellScript {
             content="""
                 gradle build publish
@@ -27,7 +27,7 @@ job("Code analysis, test, build and push") {
         }
     }
     
-    container("Jib build docker container and publish to space registry", image = "trion/jib-cli") {
+    container("Jib build docker container and publish to space docker registry", image = "trion/jib-cli") {
         resources {
             cpu = 1.cpu
             memory = 2000.mb
@@ -37,7 +37,7 @@ job("Code analysis, test, build and push") {
         shellScript {
             content = """
                 ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}`
-                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME".jar --to-username=${'$'}SPACE_DOCKER_REGISTRY_USER --to-password=${'$'}SPACE_DOCKER_REGISTRY_TOKEN --environment-variables tag=1.0.0
+                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME".jar --to-username=${'$'}SPACE_DOCKER_REGISTRY_USER --to-password=${'$'}SPACE_DOCKER_REGISTRY_TOKEN --labels=tag=1.0.0
             """
         }
     }
