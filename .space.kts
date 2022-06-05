@@ -20,6 +20,7 @@ job("Code analysis, test, build and push") {
     container(displayName = "Gradle test, build and publish to space registry", image = "gradle") {
         kotlinScript { api ->
             api.gradle("build")
+            api.fileShare().put(java.io.File("build"),"build")
             api.gradle("publish")
         }
     }
