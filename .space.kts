@@ -22,7 +22,9 @@ job("Code analysis, test, build and push") {
             content="""
                 gradle build publish
                 cp -r build $mountDir/share
-                echo $(gradle properties -q | grep "^name:" | awk '{print $2}')-$(gradle properties -q | grep "^version:" | awk '{print $2}')>$mountDir/${getArtifactFilePath()}
+                ARTIFACT_SUFFIX=${getArtifactSuffix()}
+                echo $(gradle properties -q | grep "^name:" | awk '{print $2}')>$mountDir/share/artifact-name-"${'$'}ARTIFACT_SUFFIX"
+                echo $(gradle properties -q | grep "^version:" | awk '{print $2}')>$mountDir/share/artifact-version-"${'$'}ARTIFACT_SUFFIX"
                 """
         }
     }
@@ -36,13 +38,15 @@ job("Code analysis, test, build and push") {
         env["SPACE_DOCKER_REGISTRY_TOKEN"] = Secrets("space_docker_registry_token")
         shellScript {
             content = """
-                ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}`
-                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME".jar --to-username=${'$'}SPACE_DOCKER_REGISTRY_USER --to-password=${'$'}SPACE_DOCKER_REGISTRY_TOKEN --labels=tag=1.0.0
+                ARTIFACT_SUFFIX=${getArtifactSuffix()}
+                ARTIFACT_NAME=`cat $mountDir/share/artifact-name-"${'$'}ARTIFACT_SUFFIX"`
+                ARTIFACT_VERSION=`cat $mountDir/share/artifact-version-"${'$'}ARTIFACT_SUFFIX"`
+                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"-"${'$'}ARTIFACT_VERSION".jar --to-username=${'$'}SPACE_DOCKER_REGISTRY_USER --to-password=${'$'}SPACE_DOCKER_REGISTRY_TOKEN --labels=tag="${'$'}ARTIFACT_VERSION"
             """
         }
     }
 }
 
-fun getArtifactFilePath():String{
-    return "share/artifact-${System.getenv("JB_SPACE_API_URL").split(".")[0].replaceBefore("/","").replaceFirst("//","")}-${'$'}JB_SPACE_PROJECT_KEY-${'$'}JB_SPACE_EXECUTION_NUMBER"
+fun getArtifactSuffix():String{
+    return "${System.getenv("JB_SPACE_API_URL").split(".")[0].replaceBefore("/","").replaceFirst("//","")}-${'$'}JB_SPACE_PROJECT_KEY-${'$'}JB_SPACE_EXECUTION_NUMBER"
 }
