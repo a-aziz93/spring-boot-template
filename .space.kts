@@ -35,7 +35,7 @@ job("Code analysis, test, build and push") {
         shellScript {
             content = """
                 ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}`
-                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"
+                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME".jar
             """
         }
     }
