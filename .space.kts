@@ -34,7 +34,7 @@ job("Code analysis, test, build and push") {
     
     container(image = "gradle"){
         shellScript {
-            content="gradle properties -q | grep \"^version:\" | awk '{export ARTIFACT_FULL_NAME=\$2}'"
+            content="ARTIFACT_FULL_NAME=\$(gradle properties -q | grep \"^version:\" | awk '{print \$2}')\n"
         }
     }
 }
