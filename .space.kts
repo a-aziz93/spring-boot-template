@@ -22,7 +22,7 @@ job("Code analysis, test, build and push") {
             content="""
                 gradle build publish
                 cp -r build $mountDir/share
-                echo $(gradle properties -q | grep "^group:" | awk '{print $2}'):$(gradle properties -q | grep "^name:" | awk '{print $2}'):$(gradle properties -q | grep "^version:" | awk '{print $2}')>$mountDir/${getArtifactFilePath()}"
+                echo $(gradle properties -q | grep \"^group:\" | awk '{print $2}'):$(gradle properties -q | grep \"^name:\" | awk '{print $2}'):$(gradle properties -q | grep \"^version:\" | awk '{print $2}')>$mountDir/${getArtifactFilePath()}"
                 """
         }
     }
@@ -35,7 +35,7 @@ job("Code analysis, test, build and push") {
         shellScript {
             content = """
                 ARTIFACT_NAME=`cat $mountDir/${getArtifactFilePath()}`
-                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"
+                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/\"${'$'}ARTIFACT_NAME\" $mountDir/share/build/libs/\"${'$'}ARTIFACT_NAME\"
             """
         }
     }
