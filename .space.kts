@@ -41,7 +41,7 @@ job("Code analysis, test, build and push") {
                 ARTIFACT_SUFFIX=${getArtifactSuffix()}
                 ARTIFACT_NAME=`cat $mountDir/share/artifact-name-"${'$'}ARTIFACT_SUFFIX"`
                 ARTIFACT_VERSION=`cat $mountDir/share/artifact-version-"${'$'}ARTIFACT_SUFFIX"`
-                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"-"${'$'}ARTIFACT_VERSION".jar --to-username=${'$'}SPACE_DOCKER_REGISTRY_USER --to-password=${'$'}SPACE_DOCKER_REGISTRY_TOKEN -Djib.to.tags="${'$'}ARTIFACT_VERSION"
+                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"-"${'$'}ARTIFACT_VERSION".jar --to-username=${'$'}SPACE_DOCKER_REGISTRY_USER --to-password=${'$'}SPACE_DOCKER_REGISTRY_TOKEN --additional-tags="${'$'}ARTIFACT_VERSION"
             """
         }
     }
