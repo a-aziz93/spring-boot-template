@@ -44,7 +44,7 @@ job("Code analysis, test, build and push") {
                 JDK_VERSION=`cat $mountDir/share/jdk-version-"${'$'}ARTIFACT_SUFFIX"`
                 ARTIFACT_NAME=`cat $mountDir/share/artifact-name-"${'$'}ARTIFACT_SUFFIX"`
                 ARTIFACT_VERSION=`cat $mountDir/share/artifact-version-"${'$'}ARTIFACT_SUFFIX"`
-                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"-"${'$'}ARTIFACT_VERSION".jar --from=openjdk:"${'$'}JDK_VERSION" --to-username=${'$'}SPACE_DOCKER_REGISTRY_USER --to-password=${'$'}SPACE_DOCKER_REGISTRY_TOKEN --additional-tags="${'$'}ARTIFACT_VERSION"
+                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"-"${'$'}ARTIFACT_VERSION".jar --from=openjdk:"${'$'}JDK_VERSION" --to-username=${'$'}JB_SPACE_CLIENT_ID --to-password=${'$'}JB_SPACE_CLIENT_SECRET --additional-tags="${'$'}ARTIFACT_VERSION"
             """
         }
     }
