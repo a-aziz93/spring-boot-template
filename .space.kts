@@ -23,8 +23,8 @@ job("Code analysis, test, build and push") {
                 gradle build publish
                 cp -r build $mountDir/share
                 ARTIFACT_SUFFIX=${getArtifactSuffix()}
-                echo $(gradle properties -q | grep "^targetCompatibility:" | awk '{print $2}')>$mountDir/share/jdk-version-"${'$'}ARTIFACT_SUFFIX
-                echo $(gradle properties -q | grep "^name:" | awk '{print $2}')>$mountDir/share/artifact-name-"${'$'}ARTIFACT_SUFFIX
+                echo $(gradle properties -q | grep "^targetCompatibility:" | awk '{print $2}')>$mountDir/share/jdk-version-"${'$'}ARTIFACT_SUFFIX"
+                echo $(gradle properties -q | grep "^name:" | awk '{print $2}')>$mountDir/share/artifact-name-"${'$'}ARTIFACT_SUFFIX"
                 echo $(gradle properties -q | grep "^version:" | awk '{print $2}')>$mountDir/share/artifact-version-"${'$'}ARTIFACT_SUFFIX"
                 """
         }
