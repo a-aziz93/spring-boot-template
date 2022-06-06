@@ -12,7 +12,7 @@ plugins {
     signing
 }
 
-group = "${(System.getenv("JB_SPACE_API_URL")?:"org").split(".")[0].replaceBefore("/","").replaceFirst("//","")}.${(System.getenv("JB_SPACE_PROJECT_KEY")?:"example").toLowerCaseAsciiOnly()}"
+group = "${(System.getenv("JB_SPACE_API_URL")?:"org").split(".")[0].replaceBefore("/","").replaceFirst("//","")}.${(System.getenv("JB_SPACE_PROJECT_KEY")?:"example").toLowerCaseAsciiOnly()}-SNAPSHOT"
 version = "1.0.${System.getenv("JB_SPACE_EXECUTION_NUMBER")?:0}"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -112,7 +112,7 @@ publishing {
             // change to point to your repo, e.g. http://my.org/repo
             val releasesRepoUrl = uri("https://maven.pkg.jetbrains.space/aaziz93/p/microservices/releases")
             val snapshotsRepoUrl = uri("https://maven.pkg.jetbrains.space/aaziz93/p/microservices/snapshots")
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+            url = if (version.toString().toLowerCaseAsciiOnly().endsWith("snapshot")) snapshotsRepoUrl else releasesRepoUrl
     
             credentials {
                 // Automation has a special account for authentication in Space
