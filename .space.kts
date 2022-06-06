@@ -35,9 +35,6 @@ job("Code analysis, test, build and push") {
             cpu = 1.cpu
             memory = 2000.mb
         }
-        env["SPACE_DOCKER_REGISTRY_USER"] = Params("space_docker_registry_user")
-        env["SPACE_DOCKER_REGISTRY_TOKEN"] = Secrets("space_docker_registry_token")
-        env["JIB_BASE_JDK_IMAGE"]=Params("jib_base_jdk_image")
         shellScript {
             content = """
                 ARTIFACT_SUFFIX=${getArtifactSuffix()}
