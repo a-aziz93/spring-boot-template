@@ -7,14 +7,29 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
+    id("org.sonarqube") version "3.3"
     `java-library`
     `maven-publish`
     signing
+    id("com.google.cloud.tools.jib") version "3.2.1"
 }
 
 group = "${(System.getenv("JB_SPACE_API_URL")?:"org").split(".")[0].replaceBefore("/","").replaceFirst("//","")}.${(System.getenv("JB_SPACE_PROJECT_KEY")?:"example").toLowerCaseAsciiOnly()}"
 version = "1.0.${System.getenv("JB_SPACE_EXECUTION_NUMBER")?:0}"
 java.sourceCompatibility = JavaVersion.VERSION_11
+
+sonarqube {
+    properties {
+        property ("sonar.projectKey", "a-aziz93_spring-boot-template")
+        property ("sonar.organization", "a-aziz93")
+        property ("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+
+jib {
+    to.image = "aziz93.registry.jetbrains.space/p/microservices/containers/${project.name}"
+    to.tags =  mutableSetOf(project.version.toString())
+}
 
 configurations {
     compileOnly {

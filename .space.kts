@@ -10,39 +10,23 @@ job("Code analysis, test, build and push") {
         schedule { cron("0 8 * * *") }
     }
    
-    container(displayName = "Sonar continuous inspection of code quality and security", image = "sonarsource/sonar-scanner-cli")
+    container(displayName = "Sonarqube continuous inspection of code quality and security", image = "openjdk:11")
     {
-        env["SONAR_HOST_URL"] = Params("sonar_host_url")
-        env["SONAR_LOGIN"] = Secrets("sonar_token")
-        args("-Dsonar.projectKey=a-aziz93_spring-boot-template","-Dsonar.organization=a-aziz93")
-    }
-    
-    container(displayName = "Gradle test, build and publish to space maven registry", image = "gradle"){
-        shellScript {
-            content = """
-                gradle build publish
-                cp -r build $mountDir/share
-                ARTIFACT_SUFFIX=${getArtifactSuffix()}
-                echo $(gradle properties -q | grep "^targetCompatibility:" | awk '{print $2}')>$mountDir/share/jdk-version-"${'$'}ARTIFACT_SUFFIX"
-                echo $(gradle properties -q | grep "^name:" | awk '{print $2}')>$mountDir/share/artifact-name-"${'$'}ARTIFACT_SUFFIX"
-                echo $(gradle properties -q | grep "^version:" | awk '{print $2}')>$mountDir/share/artifact-version-"${'$'}ARTIFACT_SUFFIX"
-                """
+        env["SONAR_TOKEN"] = Secrets("sonar_token")
+        kotlinScript { api->
+            api.gradlew("sonarqube")
         }
     }
     
-    container("Jib build docker container and publish to space docker registry", image = "trion/jib-cli") {
-        resources {
-            cpu = 1.cpu
-            memory = 2000.mb
-        }
-        shellScript {
-            content = """
-                ARTIFACT_SUFFIX=${getArtifactSuffix()}
-                JDK_VERSION=`cat $mountDir/share/jdk-version-"${'$'}ARTIFACT_SUFFIX"`
-                ARTIFACT_NAME=`cat $mountDir/share/artifact-name-"${'$'}ARTIFACT_SUFFIX"`
-                ARTIFACT_VERSION=`cat $mountDir/share/artifact-version-"${'$'}ARTIFACT_SUFFIX"`
-                jib jar --target=aaziz93.registry.jetbrains.space/p/microservices/containers/"${'$'}ARTIFACT_NAME" $mountDir/share/build/libs/"${'$'}ARTIFACT_NAME"-"${'$'}ARTIFACT_VERSION".jar --from=openjdk:"${'$'}JDK_VERSION" --to-username=${'$'}JB_SPACE_CLIENT_ID --to-password=${'$'}JB_SPACE_CLIENT_SECRET --additional-tags="${'$'}ARTIFACT_VERSION"
-            """
+    container(displayName = "Gradle test, build and publish to space maven registry", image = "openjdk:11"){
+       kotlinScript {api->
+           api.gradlew("test","publish")
+       }
+    }
+    
+    container("Jib build docker container and publish to space docker registry", image = "openjdk:11") {
+        kotlinScript { api->
+            api.gradlew("jib","-Djib.to.auth.username=${'$'}JB_SPACE_CLIENT_ID","-Djib.to.auth.password=${'$'}JB_SPACE_CLIENT_TOKEN")
         }
     }
 }
