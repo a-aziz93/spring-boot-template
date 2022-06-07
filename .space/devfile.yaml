@@ -9,8 +9,8 @@ attributes:
     editor:
       # (Required) IDE type: Idea, WebStorm, PyCharm,
       # RubyMine, CLion, Fleet, GoLand, PhpStorm
-      type: idea
-      version: '2022.1'
+      type: Fleet
+      version: '2022.1.1'
       # Space uses JetBrains Toolbox App to install IDEs to a dev environment.
       # updateChannel defines IDE version release stage: Release, EAP
       updateChannel: EAP
@@ -28,3 +28,4 @@ attributes:
     requiredSecrets:
     - name: PASSWORD
       description: 'Space permanent token'
+    projectRoot: .
