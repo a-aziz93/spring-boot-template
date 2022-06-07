@@ -26,7 +26,7 @@ job("Code analysis, test, build and push") {
     
     container("Jib build docker container and publish to space docker registry", image = "openjdk:11") {
         kotlinScript { api->
-            api.gradlew("jib","-Djib.to.auth.username=${'$'}JB_SPACE_CLIENT_ID","-Djib.to.auth.password=${'$'}JB_SPACE_CLIENT_SECRET")
+            api.gradlew("jib","-Djib.to.auth.username=\"${'$'}JB_SPACE_CLIENT_ID\"","-Djib.to.auth.password=\"${'$'}JB_SPACE_CLIENT_SECRET\"")
         }
     }
 }
