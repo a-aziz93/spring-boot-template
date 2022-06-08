@@ -13,7 +13,7 @@ attributes:
       version: 1.4.904'
       # Space uses JetBrains Toolbox App to install IDEs to a dev environment.
       # updateChannel defines IDE version release stage: Release, EAP
-      updateChannel: Release
+      updateChannel: Stable
       # JVM configuration (appends to the default .vmoptions file)
       vmoptions:
       - '-Xms2048m'
