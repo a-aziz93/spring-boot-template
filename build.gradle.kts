@@ -27,7 +27,7 @@ sonarqube {
 }
 
 jib {
-    to.image = "aziz93.registry.jetbrains.space/p/microservices/containers/${project.name}"
+    to.image = "aziz93.registry.jetbrains.space/p/microservices/containers/${project.name}:latest"
     to.tags =  mutableSetOf(project.version.toString())
 }
 
