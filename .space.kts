@@ -49,7 +49,7 @@ job("Code analysis, test, build and push") {
    
     container(displayName = "Sonarqube continuous inspection of code quality and security", image = "openjdk:11")
     {
-        env["SONAR_TOKEN"] = Secrets("sonar_token")
+        env["SONAR_TOKEN"] = Secrets("spring_boot_template_sonar_token")
         kotlinScript { api->
             api.gradlew("sonarqube")
         }
