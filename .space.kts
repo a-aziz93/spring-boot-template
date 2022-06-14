@@ -49,7 +49,7 @@ job("Code analysis, test, build and push") {
    
     container(displayName = "Sonarqube continuous inspection of code quality and security", image = "openjdk:11")
     {
-        env["SONAR_TOKEN"] = Secrets("spring_boot_template_sonar_token")
+        env["SONAR_TOKEN"] = Secrets("spring-boot-template_sonar_token")
         kotlinScript { api->
             api.gradlew("sonarqube")
         }
@@ -68,8 +68,4 @@ job("Code analysis, test, build and push") {
                 """
         }
     }
-}
-
-fun getArtifactSuffix():String{
-    return "${System.getenv("JB_SPACE_API_URL").split(".")[0].replaceBefore("/","").replaceFirst("//","")}-${'$'}JB_SPACE_PROJECT_KEY-${'$'}JB_SPACE_EXECUTION_NUMBER"
 }
